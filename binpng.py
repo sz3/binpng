@@ -27,6 +27,8 @@ def encode(src_file, dst_file):
     with open(src_file, 'rb') as f:
         contents = f.read()
 
+    # I think we need to encode the length + maybe pad.
+    # or at least, add an option. Feels bad!
     pixels = len(contents) // 3
     imgSize = _get_best_dimensions(pixels)
     img = Image.frombytes('RGB', imgSize, contents, 'raw')
@@ -36,7 +38,7 @@ def encode(src_file, dst_file):
 def main():
     src_file = sys.argv[1]
     dst_file = sys.argv[2]
-    if src_file.endswith('.png'):
+    if src_file.endswith('.png') or src_file.endswith('.bmp'):
         decode(src_file, dst_file)
     else:
         encode(src_file, dst_file)
