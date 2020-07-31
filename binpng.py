@@ -3,6 +3,8 @@ from math import sqrt
 
 from PIL import Image
 
+from palette import palette
+
 
 def _get_best_dimensions(n):
     small_divisors = [d for d in range(2, int(sqrt(n))) if n % d == 0]
@@ -19,7 +21,7 @@ def decode(src_file, dst_file):
     img = Image.open(src_file)
     with open(dst_file, 'wb') as f:
         for p in img.getdata():
-            bites = bytearray(p)
+            bites = bytearray((p,))
             f.write(bites)
 
 
@@ -29,16 +31,17 @@ def encode(src_file, dst_file):
 
     # I think we need to encode the length + maybe pad.
     # or at least, add an option. Feels bad!
-    pixels = len(contents) // 3
+    pixels = len(contents)
     imgSize = _get_best_dimensions(pixels)
-    img = Image.frombytes('RGB', imgSize, contents, 'raw')
+    img = Image.frombytes('P', imgSize, contents, 'raw')
+    img.putpalette(palette())
     img.save(dst_file)
 
 
 def main():
     src_file = sys.argv[1]
     dst_file = sys.argv[2]
-    if src_file.endswith('.png') or src_file.endswith('.bmp'):
+    if src_file.endswith('.png'):
         decode(src_file, dst_file)
     else:
         encode(src_file, dst_file)
