@@ -5,4 +5,4 @@ omit =
   setup.py
 
 [run]
-source = pog
+source = binpng
