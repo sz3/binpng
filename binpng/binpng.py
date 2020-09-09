@@ -3,7 +3,7 @@ from math import sqrt
 
 from PIL import Image
 
-from palette import palette
+from .palette import palette
 
 
 def _get_best_dimensions(n):
