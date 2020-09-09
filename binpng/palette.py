@@ -293,4 +293,3 @@ COLORS = [
 
 def palette():
     return list(sum(COLORS, ()))
-
